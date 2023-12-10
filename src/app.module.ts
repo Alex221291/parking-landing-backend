@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config'
 import { ParkingPlacesModule } from './parking-places/parking-places.module'
 import { PurchaseRequestsModule } from './purchase-requests/purchase-requests.module';
 import { CallRequestsModule } from './call-requests/call-requests.module';
+import { SeedModule } from './database/seed/seed.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CallRequestsModule } from './call-requests/call-requests.module';
     ParkingPlacesModule,
     PurchaseRequestsModule,
     CallRequestsModule,
+    SeedModule,
   ],
 })
 export class AppModule {}
