@@ -3,8 +3,11 @@ import { UsersService } from './users.service'
 import { UsersController } from './users.controller'
 import { APP_GUARD } from '@nestjs/core'
 import { UserRolesGuard } from './guards/user-roles.guard'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { User } from './entities/user.entity'
 
 @Module({
+  imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [
     UsersService,
