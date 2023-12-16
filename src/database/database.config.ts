@@ -1,6 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { join } from 'path'
 import { DataSource, DataSourceOptions } from 'typeorm'
+import * as dotenv from 'dotenv'
+
+dotenv.config({ path: '.env' })
 
 const dataSourceConfig: DataSourceOptions = {
   type: process.env.DATABASE_TYPE as any,
