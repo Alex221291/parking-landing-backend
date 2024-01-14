@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
 import { PurchaseRequestStatusesEnum } from './enums/purchase-requests-statuses.enum'
 import { ParkingPlacesService } from 'src/parking-places/parking-places.service'
+import { ParkingPlaceStatusesEnum } from 'src/parking-places/enums/parking-place-statuses.enum'
 
 @Injectable()
 export class PurchaseRequestsService {
@@ -32,7 +33,16 @@ export class PurchaseRequestsService {
       parkingPlace,
       status: PurchaseRequestStatusesEnum.Idle,
     })
-    return this.purchaseRequestRepository.save(purchaseRequest)
+    await this.purchaseRequestRepository.save(purchaseRequest)
+    await this.parkingPlacesService.update(parkingPlace.id, {
+      area: parkingPlace.area,
+      currentPrice: parkingPlace.currentPrice,
+      floor: parkingPlace.floor,
+      previousPrice: parkingPlace.previousPrice,
+      status: ParkingPlaceStatusesEnum.Booked,
+      type: parkingPlace.type,
+    })
+    return purchaseRequest
   }
 
   findAll(): Promise<PurchaseRequest[]> {
@@ -51,7 +61,10 @@ export class PurchaseRequestsService {
   }
 
   async updateStatus(id: number, status: PurchaseRequestStatusesEnum): Promise<void> {
-    const purchaseRequest = await this.purchaseRequestRepository.findOneBy({ id })
+    const purchaseRequest = await this.purchaseRequestRepository.findOne({
+      where: { id },
+      relations: { parkingPlace: true },
+    })
     if (!purchaseRequest) {
       throw new NotFoundException(`Purchase request with id ${id} not found`)
     }
@@ -61,7 +74,17 @@ export class PurchaseRequestsService {
       )
     }
     purchaseRequest.status = status
+    const parkingPlace = await this.parkingPlacesService.findOne(
+      purchaseRequest.parkingPlace.id,
+    )
+    if (status === PurchaseRequestStatusesEnum.Approved) {
+      parkingPlace.status = ParkingPlaceStatusesEnum.Sold
+    }
+    if (status === PurchaseRequestStatusesEnum.Rejected) {
+      parkingPlace.status = ParkingPlaceStatusesEnum.Free
+    }
     await this.purchaseRequestRepository.save(purchaseRequest)
+    await this.parkingPlacesService.update(parkingPlace.id, { ...parkingPlace })
   }
 
   async remove(id: number): Promise<void> {

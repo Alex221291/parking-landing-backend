@@ -10,6 +10,7 @@ async function bootstrap() {
   await seedService.seedUsers()
   await seedService.seedParkingPlaces()
 
+  app.enableCors()
   await app.listen(3000)
 }
 bootstrap()

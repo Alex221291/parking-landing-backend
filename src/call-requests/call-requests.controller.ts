@@ -36,7 +36,7 @@ export class CallRequestsController {
   }
 
   @Patch(':id/close')
-  approve(@Param('id', ParseIntPipe) id: number) {
+  close(@Param('id', ParseIntPipe) id: number) {
     return this.callRequestsService.updateStatus(id, CallRequestStatusesEnum.Closed)
   }
 

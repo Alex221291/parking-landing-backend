@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { usersSeedData } from './data/users.data'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'src/users/entities/user.entity'
+import * as bcrypt from 'bcrypt'
 import { Repository } from 'typeorm'
 import { ParkingPlace } from 'src/parking-places/entities/parking-place.entity'
 import { parkingPlacesSeedData } from './data/parking-places.data'
@@ -25,17 +26,24 @@ export class SeedService {
       console.groupEnd()
       return
     }
-    const createUserPromises = usersSeedData.map((userSeedData) => {
-      const isUserExisting = this.userRepository.exist({
-        where: { username: userSeedData.username },
-      })
-      if (isUserExisting) {
-        return async (): Promise<void> => null
-      }
-      const user = this.userRepository.create(userSeedData)
-      console.log(userSeedData.username, 'created')
-      return this.userRepository.save(user)
-    })
+    const createUserPromises: Promise<User | null>[] = usersSeedData.map(
+      async (userSeedData) => {
+        const isUserExisting = await this.userRepository.exist({
+          where: { username: userSeedData.username },
+        })
+        if (isUserExisting) {
+          return null
+        }
+        const salt = await bcrypt.genSalt()
+        const hash = await bcrypt.hash(userSeedData.password, salt)
+        const user = this.userRepository.create({
+          ...userSeedData,
+          password: hash,
+        })
+        console.log(userSeedData.username, 'created')
+        return this.userRepository.save(user)
+      },
+    )
     await Promise.all(createUserPromises)
     console.log('Users seed end')
     console.groupEnd()
@@ -46,7 +54,7 @@ export class SeedService {
     console.log('Parking places seed start')
     const parkingPlacesAmount = await this.parkingPlaceRepository.count()
     if (parkingPlacesAmount) {
-      console.log('There is already %d parkingPlaces in database', parkingPlacesAmount)
+      console.log('There is already %d parking places in database', parkingPlacesAmount)
       console.log('Parking places seed is skipped')
       console.groupEnd()
       return
