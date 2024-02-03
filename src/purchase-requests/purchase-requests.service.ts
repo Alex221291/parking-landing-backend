@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { PurchaseRequest } from './entities/purchase-request.entity'
 import { Repository } from 'typeorm'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
-import { PurchaseRequestStatusesEnum } from './enums/purchase-requests-statuses.enum'
 import { ParkingPlacesService } from 'src/parking-places/parking-places.service'
-import { ParkingPlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
+import { PlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
+import { PurchaseRequestStatusesEnum } from 'src/infrastructure/enums/purchase-requests-statuses.enum'
+import { UpdatePurchaseRequestStatusDto } from './dto/update-purchase-request-status.dto'
 
 @Injectable()
 export class PurchaseRequestsService {
@@ -39,7 +40,7 @@ export class PurchaseRequestsService {
       currentPrice: parkingPlace.currentPrice,
       floor: parkingPlace.floor,
       previousPrice: parkingPlace.previousPrice,
-      status: ParkingPlaceStatusesEnum.Booked,
+      status: PlaceStatusesEnum.Booked,
       type: parkingPlace.type,
     })
     return purchaseRequest
@@ -60,28 +61,27 @@ export class PurchaseRequestsService {
     return purchaseRequest
   }
 
-  async updateStatus(id: number, status: PurchaseRequestStatusesEnum): Promise<void> {
+  async updateStatus(
+    updatePurchaseRequestStatusDto: UpdatePurchaseRequestStatusDto,
+  ): Promise<void> {
     const purchaseRequest = await this.purchaseRequestRepository.findOne({
-      where: { id },
+      where: { id: updatePurchaseRequestStatusDto.id },
       relations: { parkingPlace: true },
     })
     if (!purchaseRequest) {
-      throw new NotFoundException(`Purchase request with id ${id} not found`)
-    }
-    if (purchaseRequest.status !== PurchaseRequestStatusesEnum.Idle) {
-      throw new BadRequestException(
-        `Purchase request with id ${id} has already been approved/rejected`,
+      throw new NotFoundException(
+        `Purchase request with id ${updatePurchaseRequestStatusDto.id} not found`,
       )
     }
-    purchaseRequest.status = status
+    purchaseRequest.status = updatePurchaseRequestStatusDto.status
     const parkingPlace = await this.parkingPlacesService.findOne(
       purchaseRequest.parkingPlace.id,
     )
-    if (status === PurchaseRequestStatusesEnum.Approved) {
-      parkingPlace.status = ParkingPlaceStatusesEnum.Sold
+    if (updatePurchaseRequestStatusDto.status === PurchaseRequestStatusesEnum.Approved) {
+      parkingPlace.status = PlaceStatusesEnum.Sold
     }
-    if (status === PurchaseRequestStatusesEnum.Rejected) {
-      parkingPlace.status = ParkingPlaceStatusesEnum.Free
+    if (updatePurchaseRequestStatusDto.status !== PurchaseRequestStatusesEnum.Approved) {
+      parkingPlace.status = PlaceStatusesEnum.Free
     }
     await this.purchaseRequestRepository.save(purchaseRequest)
     await this.parkingPlacesService.update(parkingPlace.id, { ...parkingPlace })

@@ -9,6 +9,7 @@ import { PurchaseRequestsModule } from './purchase-requests/purchase-requests.mo
 import { CallRequestsModule } from './call-requests/call-requests.module'
 import { SeedModule } from './database/seed/seed.module'
 import { PantryPlacesModule } from './pantry-places/pantry-places.module'
+import { PantryPurchaseRequestsModule } from './pantry-purchase-requests/pantry-purchase-requests.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PantryPlacesModule } from './pantry-places/pantry-places.module'
     CallRequestsModule,
     SeedModule,
     PantryPlacesModule,
+    PantryPurchaseRequestsModule,
   ],
 })
 export class AppModule {}

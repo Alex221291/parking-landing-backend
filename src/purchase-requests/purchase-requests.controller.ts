@@ -12,8 +12,8 @@ import { PurchaseRequestsService } from './purchase-requests.service'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
 import { RequiredRoles } from 'src/infrastructure/decorators/required-roles.decorator'
 import { UserRolesEnum } from 'src/infrastructure/enums/user-roles.enum'
-import { PurchaseRequestStatusesEnum } from './enums/purchase-requests-statuses.enum'
 import { PublicRoute } from 'src/infrastructure/decorators/public-route.decorator'
+import { UpdatePurchaseRequestStatusDto } from './dto/update-purchase-request-status.dto'
 
 @Controller('purchase-requests')
 export class PurchaseRequestsController {
@@ -35,20 +35,9 @@ export class PurchaseRequestsController {
     return this.purchaseRequestsService.findOne(id)
   }
 
-  @Patch(':id/approve')
-  approve(@Param('id', ParseIntPipe) id: number) {
-    return this.purchaseRequestsService.updateStatus(
-      id,
-      PurchaseRequestStatusesEnum.Approved,
-    )
-  }
-
-  @Patch(':id/reject')
-  reject(@Param('id', ParseIntPipe) id: number) {
-    return this.purchaseRequestsService.updateStatus(
-      id,
-      PurchaseRequestStatusesEnum.Rejected,
-    )
+  @Patch(':id/update-status')
+  approve(@Body() updatePurchaseRequestStatusDto: UpdatePurchaseRequestStatusDto) {
+    return this.purchaseRequestsService.updateStatus(updatePurchaseRequestStatusDto)
   }
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)

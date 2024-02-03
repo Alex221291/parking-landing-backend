@@ -8,5 +8,6 @@ import { PantryPlace } from './entities/pantry-place.entity'
   imports: [TypeOrmModule.forFeature([PantryPlace])],
   controllers: [PantryPlacesController],
   providers: [PantryPlacesService],
+  exports: [PantryPlacesService],
 })
 export class PantryPlacesModule {}

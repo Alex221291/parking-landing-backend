@@ -1,5 +1,5 @@
 import { PurchaseRequestStatusesEnum } from 'src/infrastructure/enums/purchase-requests-statuses.enum'
-import { ParkingPlace } from 'src/parking-places/entities/parking-place.entity'
+import { PantryPlace } from 'src/pantry-places/entities/pantry-place.entity'
 import {
   Column,
   CreateDateColumn,
@@ -9,13 +9,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-@Entity({ name: 'PurchaseRequests' })
-export class PurchaseRequest {
+@Entity({ name: 'PantryPurchaseRequests' })
+export class PantryPurchaseRequest {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => ParkingPlace)
-  parkingPlace: ParkingPlace
+  @ManyToOne(() => PantryPlace)
+  pantryPlace: PantryPlace
 
   @Column()
   customerName: string
