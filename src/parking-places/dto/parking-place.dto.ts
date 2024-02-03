@@ -1,4 +1,4 @@
-import { ParkingPlaceStatusesEnum } from '../../infrastructure/enums/place-statuses.enum'
+import { PlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
 import { ParkingPlaceTypesEnum } from '../enums/parking-place-types.enum'
 
 export class ParkingPlaceDto {
@@ -7,5 +7,5 @@ export class ParkingPlaceDto {
   area: number
   currentPrice: number
   previousPrice: number
-  status: ParkingPlaceStatusesEnum
+  status: PlaceStatusesEnum
 }

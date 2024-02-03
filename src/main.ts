@@ -9,6 +9,7 @@ async function bootstrap() {
   const seedService = app.get(SeedService)
   await seedService.seedUsers()
   await seedService.seedParkingPlaces()
+  await seedService.seedPantryPlaces()
 
   app.enableCors()
   await app.listen(3000)
