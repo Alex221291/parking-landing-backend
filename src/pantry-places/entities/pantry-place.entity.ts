@@ -1,17 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ParkingPlaceTypesEnum } from '../enums/parking-place-types.enum'
 import { PlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity({ name: 'ParkingPlaces' })
-export class ParkingPlace {
+@Entity({ name: 'PantryPlaces' })
+export class PantryPlace {
   @PrimaryGeneratedColumn()
   id: number
 
   @Column()
   floor: number
-
-  @Column({ enum: ParkingPlaceTypesEnum })
-  type: ParkingPlaceTypesEnum
 
   @Column()
   area: number

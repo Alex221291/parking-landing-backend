@@ -6,6 +6,8 @@ import * as bcrypt from 'bcrypt'
 import { Repository } from 'typeorm'
 import { ParkingPlace } from 'src/parking-places/entities/parking-place.entity'
 import { parkingPlacesSeedData } from './data/parking-places.data'
+import { PantryPlace } from 'src/pantry-places/entities/pantry-place.entity'
+import { pantryPlacesSeedData } from './data/pantry-places.data'
 
 @Injectable()
 export class SeedService {
@@ -14,6 +16,8 @@ export class SeedService {
     private userRepository: Repository<User>,
     @InjectRepository(ParkingPlace)
     private parkingPlaceRepository: Repository<ParkingPlace>,
+    @InjectRepository(PantryPlace)
+    private pantryPlaceRepository: Repository<PantryPlace>,
   ) {}
 
   async seedUsers() {
@@ -68,6 +72,26 @@ export class SeedService {
     await Promise.all(createParkingPlacePromises)
     console.log('Created and saved %d parking places', parkingPlacesSeedData.length)
     console.log('Parking places seed end')
+    console.groupEnd()
+  }
+
+  async seedPantryPlaces() {
+    console.group('Pantry Places Seed')
+    console.log('Pantry places seed start')
+    const pantryPlacesAmount = await this.pantryPlaceRepository.count()
+    if (pantryPlacesAmount) {
+      console.log('There is already %d pantry places in database', pantryPlacesAmount)
+      console.log('Pantry places seed is skipped')
+      console.groupEnd()
+      return
+    }
+    const createPantryPlacePromises = pantryPlacesSeedData.map((pantryPlaceSeedData) => {
+      const pantryPlace = this.pantryPlaceRepository.create(pantryPlaceSeedData)
+      return this.pantryPlaceRepository.save(pantryPlace)
+    })
+    await Promise.all(createPantryPlacePromises)
+    console.log('Created and saved %d pantry places', pantryPlacesSeedData.length)
+    console.log('Pantry places seed end')
     console.groupEnd()
   }
 }

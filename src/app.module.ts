@@ -5,9 +5,10 @@ import { databaseConfig } from './database/database.config'
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from '@nestjs/config'
 import { ParkingPlacesModule } from './parking-places/parking-places.module'
-import { PurchaseRequestsModule } from './purchase-requests/purchase-requests.module';
-import { CallRequestsModule } from './call-requests/call-requests.module';
-import { SeedModule } from './database/seed/seed.module';
+import { PurchaseRequestsModule } from './purchase-requests/purchase-requests.module'
+import { CallRequestsModule } from './call-requests/call-requests.module'
+import { SeedModule } from './database/seed/seed.module'
+import { PantryPlacesModule } from './pantry-places/pantry-places.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SeedModule } from './database/seed/seed.module';
     PurchaseRequestsModule,
     CallRequestsModule,
     SeedModule,
+    PantryPlacesModule,
   ],
 })
 export class AppModule {}

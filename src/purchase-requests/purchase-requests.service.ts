@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
 import { PurchaseRequestStatusesEnum } from './enums/purchase-requests-statuses.enum'
 import { ParkingPlacesService } from 'src/parking-places/parking-places.service'
-import { ParkingPlaceStatusesEnum } from 'src/parking-places/enums/parking-place-statuses.enum'
+import { ParkingPlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
 
 @Injectable()
 export class PurchaseRequestsService {
