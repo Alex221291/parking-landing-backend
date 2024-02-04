@@ -10,7 +10,7 @@ import { PlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
 import { ParkingPlaceTypesEnum } from 'src/parking-places/enums/parking-place-types.enum'
 
 export const parkingPlacesSeedData: ParkingPlaceDto[] = [
-  ...Array(ParkingPlacesAmountOn1Floor).map((): ParkingPlaceDto => {
+  ...Array.from(Array(ParkingPlacesAmountOn1Floor).keys()).map((): ParkingPlaceDto => {
     return {
       floor: 1,
       type: ParkingPlaceTypesEnum.Standard,
@@ -20,7 +20,7 @@ export const parkingPlacesSeedData: ParkingPlaceDto[] = [
       status: PlaceStatusesEnum.Free,
     }
   }),
-  ...Array(ParkingPlacesAmountOn2Floor).map((): ParkingPlaceDto => {
+  ...Array.from(Array(ParkingPlacesAmountOn2Floor).keys()).map((): ParkingPlaceDto => {
     return {
       floor: 2,
       type: ParkingPlaceTypesEnum.Standard,
@@ -30,7 +30,7 @@ export const parkingPlacesSeedData: ParkingPlaceDto[] = [
       status: PlaceStatusesEnum.Free,
     }
   }),
-  ...Array(ParkingPlacesAmountOn3Floor).map((): ParkingPlaceDto => {
+  ...Array.from(Array(ParkingPlacesAmountOn3Floor).keys()).map((): ParkingPlaceDto => {
     return {
       floor: 3,
       type: ParkingPlaceTypesEnum.Standard,
@@ -40,7 +40,7 @@ export const parkingPlacesSeedData: ParkingPlaceDto[] = [
       status: PlaceStatusesEnum.Free,
     }
   }),
-  ...Array(ParkingPlacesAmountOn4Floor).map((): ParkingPlaceDto => {
+  ...Array.from(Array(ParkingPlacesAmountOn4Floor).keys()).map((): ParkingPlaceDto => {
     return {
       floor: 4,
       type: ParkingPlaceTypesEnum.Standard,
@@ -50,7 +50,7 @@ export const parkingPlacesSeedData: ParkingPlaceDto[] = [
       status: PlaceStatusesEnum.Free,
     }
   }),
-  ...Array(ParkingPlacesAmountOn5Floor).map((): ParkingPlaceDto => {
+  ...Array.from(Array(ParkingPlacesAmountOn5Floor).keys()).map((): ParkingPlaceDto => {
     return {
       floor: 5,
       type: ParkingPlaceTypesEnum.Standard,
