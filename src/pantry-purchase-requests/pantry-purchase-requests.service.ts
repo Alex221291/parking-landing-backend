@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PantryPurchaseRequest } from './entities/pantry-purchase-request.entity'
-import { Repository } from 'typeorm'
+import { Not, Repository } from 'typeorm'
 import { PantryPlacesService } from 'src/pantry-places/pantry-places.service'
 import { PantryPurchaseRequestDto } from './dto/pantry-purchase-request.dto'
 import { PurchaseRequestStatusesEnum } from 'src/infrastructure/enums/purchase-requests-statuses.enum'
@@ -21,7 +21,10 @@ export class PantryPurchaseRequestsService {
   ): Promise<PantryPurchaseRequest> {
     const isPantryPurchaseRequestForPantryPlaceExisting =
       await this.purchaseRequestRepository.exist({
-        where: { pantryPlace: { id: purchaseRequestDto.pantryPlaceId } },
+        where: {
+          status: Not(PurchaseRequestStatusesEnum.Rejected),
+          pantryPlace: { id: purchaseRequestDto.pantryPlaceId },
+        },
       })
     if (isPantryPurchaseRequestForPantryPlaceExisting) {
       throw new BadRequestException(
@@ -43,6 +46,7 @@ export class PantryPurchaseRequestsService {
       floor: pantryPlace.floor,
       previousPrice: pantryPlace.previousPrice,
       status: PlaceStatusesEnum.Booked,
+      displayedNo: pantryPlace.displayedNo,
     })
     return purchaseRequest
   }

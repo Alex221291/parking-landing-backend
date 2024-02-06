@@ -7,6 +7,9 @@ export class PantryPlace {
   id: number
 
   @Column()
+  displayedNo: number
+
+  @Column()
   floor: number
 
   @Column()

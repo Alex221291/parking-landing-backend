@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PurchaseRequest } from './entities/purchase-request.entity'
-import { Repository } from 'typeorm'
+import { Not, Repository } from 'typeorm'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
 import { ParkingPlacesService } from 'src/parking-places/parking-places.service'
 import { PlaceStatusesEnum } from 'src/infrastructure/enums/place-statuses.enum'
@@ -19,7 +19,10 @@ export class PurchaseRequestsService {
   async create(purchaseRequestDto: PurchaseRequestDto): Promise<PurchaseRequest> {
     const isPurchaseRequestForParkingPlaceExisting =
       await this.purchaseRequestRepository.exist({
-        where: { parkingPlace: { id: purchaseRequestDto.parkingPlaceId } },
+        where: {
+          status: Not(PurchaseRequestStatusesEnum.Rejected),
+          parkingPlace: { id: purchaseRequestDto.parkingPlaceId },
+        },
       })
     if (isPurchaseRequestForParkingPlaceExisting) {
       throw new BadRequestException(
@@ -42,6 +45,7 @@ export class PurchaseRequestsService {
       previousPrice: parkingPlace.previousPrice,
       status: PlaceStatusesEnum.Booked,
       type: parkingPlace.type,
+      displayedNo: parkingPlace.displayedNo,
     })
     return purchaseRequest
   }

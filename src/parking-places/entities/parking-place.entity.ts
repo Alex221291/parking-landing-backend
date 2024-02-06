@@ -8,6 +8,9 @@ export class ParkingPlace {
   id: number
 
   @Column()
+  displayedNo: number
+
+  @Column()
   floor: number
 
   @Column({ enum: ParkingPlaceTypesEnum })
