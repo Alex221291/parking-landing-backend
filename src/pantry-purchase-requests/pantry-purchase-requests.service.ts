@@ -40,14 +40,6 @@ export class PantryPurchaseRequestsService {
       status: PurchaseRequestStatusesEnum.Idle,
     })
     await this.purchaseRequestRepository.save(purchaseRequest)
-    await this.pantryPlacesService.update(pantryPlace.id, {
-      area: pantryPlace.area,
-      currentPrice: pantryPlace.currentPrice,
-      floor: pantryPlace.floor,
-      previousPrice: pantryPlace.previousPrice,
-      status: PlaceStatusesEnum.Booked,
-      displayedNo: pantryPlace.displayedNo,
-    })
     return purchaseRequest
   }
 
@@ -83,12 +75,21 @@ export class PantryPurchaseRequestsService {
       purchaseRequest.pantryPlace.id,
     )
     if (
+      updatePantryPurchaseRequestStatusDto.status ===
+      PurchaseRequestStatusesEnum.InProcess
+    ) {
+      pantryPlace.status = PlaceStatusesEnum.Booked
+    }
+    if (
       updatePantryPurchaseRequestStatusDto.status === PurchaseRequestStatusesEnum.Approved
     ) {
       pantryPlace.status = PlaceStatusesEnum.Sold
     }
     if (
-      updatePantryPurchaseRequestStatusDto.status !== PurchaseRequestStatusesEnum.Approved
+      updatePantryPurchaseRequestStatusDto.status !==
+        PurchaseRequestStatusesEnum.Approved &&
+      updatePantryPurchaseRequestStatusDto.status !==
+        PurchaseRequestStatusesEnum.InProcess
     ) {
       pantryPlace.status = PlaceStatusesEnum.Free
     }
