@@ -12,4 +12,24 @@ export const usersSeedData: CreateUserDto[] = [
     password: '0yG07VYvzVJdGk1ZWg7aBVGvguVjHcJ8',
     role: UserRolesEnum.Admin,
   },
+  {
+    username: 'admin_2',
+    password: '1SmANxmehW6G5tZsgb9ZPifHzEOKnyms',
+    role: UserRolesEnum.Admin,
+  },
+  {
+    username: 'sales_1',
+    password: 'rzvZXXnXkMlphwTnsu3lUJBTbiuu0f3o',
+    role: UserRolesEnum.Admin,
+  },
+  {
+    username: 'sales_2',
+    password: '64ECr6txJP9GEM6jJV6Z8bAN2lpnGMiD',
+    role: UserRolesEnum.Admin,
+  },
+  {
+    username: 'Prozorov',
+    password: 'ohLkSsWgP5Xkzrlt5t6JTpAc4L3SvNK9',
+    role: UserRolesEnum.Admin,
+  },
 ]
