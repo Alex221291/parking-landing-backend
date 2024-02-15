@@ -17,7 +17,7 @@ export class ParkingPlacesService {
   }
 
   findAll(): Promise<ParkingPlace[]> {
-    return this.parkingPlaceRepository.find({ order: { id: 'ASC' } })
+    return this.parkingPlaceRepository.find({ order: { displayedNo: 'ASC' } })
   }
 
   async findOne(id: number): Promise<ParkingPlace> {

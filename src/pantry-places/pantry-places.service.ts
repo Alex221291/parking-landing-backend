@@ -17,7 +17,7 @@ export class PantryPlacesService {
   }
 
   findAll(): Promise<PantryPlace[]> {
-    return this.pantryPlaceRepository.find({ order: { id: 'ASC' } })
+    return this.pantryPlaceRepository.find({ order: { displayedNo: 'ASC' } })
   }
 
   async findOne(id: number): Promise<PantryPlace> {
