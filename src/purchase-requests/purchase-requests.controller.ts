@@ -10,8 +10,6 @@ import {
 } from '@nestjs/common'
 import { PurchaseRequestsService } from './purchase-requests.service'
 import { PurchaseRequestDto } from './dto/purchase-request.dto'
-import { RequiredRoles } from 'src/infrastructure/decorators/required-roles.decorator'
-import { UserRolesEnum } from 'src/infrastructure/enums/user-roles.enum'
 import { PublicRoute } from 'src/infrastructure/decorators/public-route.decorator'
 import { UpdatePurchaseRequestStatusDto } from './dto/update-purchase-request-status.dto'
 
@@ -40,7 +38,6 @@ export class PurchaseRequestsController {
     return this.purchaseRequestsService.updateStatus(updatePurchaseRequestStatusDto)
   }
 
-  @RequiredRoles(UserRolesEnum.SuperAdmin)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.purchaseRequestsService.remove(id)

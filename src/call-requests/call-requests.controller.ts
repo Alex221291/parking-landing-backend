@@ -11,8 +11,6 @@ import {
 import { CallRequestsService } from './call-requests.service'
 import { CallRequestDto } from './dto/call-request.dto'
 import { CallRequestStatusesEnum } from './enums/call-requests-statuses.enum'
-import { RequiredRoles } from 'src/infrastructure/decorators/required-roles.decorator'
-import { UserRolesEnum } from 'src/infrastructure/enums/user-roles.enum'
 import { PublicRoute } from 'src/infrastructure/decorators/public-route.decorator'
 
 @Controller('call-requests')
@@ -40,7 +38,6 @@ export class CallRequestsController {
     return this.callRequestsService.updateStatus(id, CallRequestStatusesEnum.Closed)
   }
 
-  @RequiredRoles(UserRolesEnum.SuperAdmin)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.callRequestsService.remove(id)

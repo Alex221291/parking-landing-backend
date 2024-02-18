@@ -10,8 +10,6 @@ import {
 } from '@nestjs/common'
 import { PantryPurchaseRequestsService } from './pantry-purchase-requests.service'
 import { PantryPurchaseRequestDto } from './dto/pantry-purchase-request.dto'
-import { UserRolesEnum } from 'src/infrastructure/enums/user-roles.enum'
-import { RequiredRoles } from 'src/infrastructure/decorators/required-roles.decorator'
 import { PublicRoute } from 'src/infrastructure/decorators/public-route.decorator'
 import { UpdatePantryPurchaseRequestStatusDto } from './dto/update-pantry-purchase-request-status.dto'
 
@@ -46,7 +44,6 @@ export class PantryPurchaseRequestsController {
     )
   }
 
-  @RequiredRoles(UserRolesEnum.SuperAdmin)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.pantryPurchaseRequestsService.remove(id)
