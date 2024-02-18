@@ -35,9 +35,18 @@ export class PurchaseRequestsService {
     const purchaseRequest = this.purchaseRequestRepository.create({
       ...purchaseRequestDto,
       parkingPlace,
-      status: PurchaseRequestStatusesEnum.Idle,
+      status: PurchaseRequestStatusesEnum.InProcess,
     })
     await this.purchaseRequestRepository.save(purchaseRequest)
+    await this.parkingPlacesService.update(parkingPlace.id, {
+      area: parkingPlace.area,
+      currentPrice: parkingPlace.currentPrice,
+      floor: parkingPlace.floor,
+      previousPrice: parkingPlace.previousPrice,
+      status: PlaceStatusesEnum.Booked,
+      type: parkingPlace.type,
+      displayedNo: parkingPlace.displayedNo,
+    })
     return purchaseRequest
   }
 

@@ -37,9 +37,17 @@ export class PantryPurchaseRequestsService {
     const purchaseRequest = this.purchaseRequestRepository.create({
       ...purchaseRequestDto,
       pantryPlace,
-      status: PurchaseRequestStatusesEnum.Idle,
+      status: PurchaseRequestStatusesEnum.InProcess,
     })
     await this.purchaseRequestRepository.save(purchaseRequest)
+    await this.pantryPlacesService.update(pantryPlace.id, {
+      area: pantryPlace.area,
+      currentPrice: pantryPlace.currentPrice,
+      floor: pantryPlace.floor,
+      previousPrice: pantryPlace.previousPrice,
+      status: PlaceStatusesEnum.Booked,
+      displayedNo: pantryPlace.displayedNo,
+    })
     return purchaseRequest
   }
 
