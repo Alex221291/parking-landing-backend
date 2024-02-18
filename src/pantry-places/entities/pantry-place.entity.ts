@@ -12,7 +12,7 @@ export class PantryPlace {
   @Column()
   floor: number
 
-  @Column()
+  @Column({ type: 'float' })
   area: number
 
   @Column()

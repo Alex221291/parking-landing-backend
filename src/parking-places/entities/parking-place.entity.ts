@@ -16,7 +16,7 @@ export class ParkingPlace {
   @Column({ enum: ParkingPlaceTypesEnum })
   type: ParkingPlaceTypesEnum
 
-  @Column()
+  @Column({ type: 'float' })
   area: number
 
   @Column()
