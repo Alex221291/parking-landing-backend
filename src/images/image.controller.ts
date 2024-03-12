@@ -28,13 +28,17 @@ export class ImageController {
       }),
     }),
   )
-  async uploadImage(@UploadedFile() file: Express.Multer.File, @Body('blogId') blogId) {
+  async uploadImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('blogId') blogId: number,
+  ) {
     const blog = await this.blogService.findOne(blogId)
     blog.imagePath = `blog_${blogId}.${file.originalname.split('.').slice(-1)}`
     await this.blogService.update(blogId, { ...blog })
     return blog
   }
 
+  @PublicRoute()
   @Get(':imageName')
   getImage(@Param('imageName') imageName, @Res() res) {
     return res.sendFile(imageName, { root: './uploads' })

@@ -3,6 +3,7 @@ import { BlogDto } from './dto/blog.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Blog } from './entities/blog.entity'
 import { Repository } from 'typeorm'
+import * as fs from 'fs'
 
 @Injectable()
 export class BlogsService {
@@ -43,6 +44,14 @@ export class BlogsService {
     })
     if (!isBlogExisting) {
       throw new NotFoundException(`Blog with id ${id} not found`)
+    }
+    const blog = await this.blogRepository.findOneBy({ id })
+    if (blog.imagePath) {
+      fs.unlink(`./uploads/${blog.imagePath}`, (err) => {
+        if (err) {
+          throw new NotFoundException(`Image ${blog.imagePath} not found`)
+        }
+      })
     }
     await this.blogRepository.delete(id)
   }
