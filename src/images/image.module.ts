@@ -5,7 +5,7 @@ import { BlogsService } from '../blogs/blogs.service'
 import { BlogsModule } from '../blogs/blogs.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Blog } from '../blogs/entities/blog.entity'
-import { ImageService } from "./image.service";
+import { ImageService } from './image.service'
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ImageService } from "./image.service";
     TypeOrmModule.forFeature([Blog]),
     BlogsModule,
   ],
-  providers: [BlogsService,ImageService],
+  providers: [BlogsService, ImageService],
   controllers: [ImageController],
 })
 export class ImageModule {}

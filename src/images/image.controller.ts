@@ -17,7 +17,7 @@ import { BlogsService } from '../blogs/blogs.service'
 @Controller('image')
 export class ImageController {
   constructor(private readonly blogService: BlogsService) {}
-  @PublicRoute()
+
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -35,7 +35,6 @@ export class ImageController {
     return blog
   }
 
-  @PublicRoute()
   @Get(':imageName')
   getImage(@Param('imageName') imageName, @Res() res) {
     return res.sendFile(imageName, { root: './uploads' })

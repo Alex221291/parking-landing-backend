@@ -13,26 +13,21 @@ export class BlogsController {
     return this.blogsService.create(blogDto)
   }
 
-  @PublicRoute()
   @Get()
   findAll() {
     return this.blogsService.findAll()
   }
 
-  @PublicRoute()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.blogsService.findOne(+id)
   }
 
-  @PublicRoute()
   @Patch(':id')
   update(@Param('id') id: string, @Body() blogDto: BlogDto) {
     return this.blogsService.update(+id, blogDto)
   }
 
-  // @RequiredRoles(UserRolesEnum.SuperAdmin)
-  @PublicRoute()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.blogsService.remove(+id)
