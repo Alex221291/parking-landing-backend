@@ -30,7 +30,7 @@ export class ImageController {
   )
   async uploadImage(
     @UploadedFile() file: Express.Multer.File,
-    @Body('blogId') blogId: number,
+    @Param('blogId') blogId: number,
   ) {
     const blog = await this.blogService.findOne(blogId)
     blog.imagePath = `blog_${blogId}.${file.originalname.split('.').slice(-1)}`
