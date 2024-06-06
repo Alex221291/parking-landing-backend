@@ -28,6 +28,10 @@ export class UsersService {
     return this.userRepository.save(user)
   }
 
+  findAll(): Promise<User[]> {
+    return this.userRepository.find()
+  }
+
   async findOneById(id: number): Promise<User> {
     const user = await this.userRepository.findOneBy({ id })
     if (!user) {

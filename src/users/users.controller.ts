@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Delete, Param, ParseIntPipe } from '@nestjs/common'
+import { Controller, Post, Body, Delete, Param, ParseIntPipe, Get } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { RequiredRoles } from 'src/infrastructure/decorators/required-roles.decorator'
@@ -11,6 +11,12 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto)
+  }
+
+  @RequiredRoles(UserRolesEnum.SuperAdmin)
+  @Get()
+  findAll() {
+    return this.usersService.findAll()
   }
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)
