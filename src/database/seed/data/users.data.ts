@@ -18,16 +18,6 @@ export const usersSeedData: CreateUserDto[] = [
     role: UserRolesEnum.Admin,
   },
   {
-    username: 'sales_1',
-    password: 'rzvZXXnXkMlphwTnsu3lUJBTbiuu0f3o',
-    role: UserRolesEnum.Admin,
-  },
-  {
-    username: 'sales_2',
-    password: '64ECr6txJP9GEM6jJV6Z8bAN2lpnGMiD',
-    role: UserRolesEnum.Admin,
-  },
-  {
     username: 'Prozorov',
     password: 'ohLkSsWgP5Xkzrlt5t6JTpAc4L3SvNK9',
     role: UserRolesEnum.Admin,
