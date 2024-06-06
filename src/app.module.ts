@@ -17,8 +17,8 @@ import { ImageModule } from './images/image.module'
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(databaseConfig),
-    UsersModule,
     AuthModule,
+    UsersModule,
     ParkingPlacesModule,
     PurchaseRequestsModule,
     CallRequestsModule,
