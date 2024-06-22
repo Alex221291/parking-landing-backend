@@ -35,8 +35,38 @@ export const pantryPlacesSeedData: PantryPlaceDto[] = [
   ),
   ...Array.from(Array(PantryPlacesAmountOn3Floor).keys()).map(
     (number): PantryPlaceDto => {
+      if (number === PantryPlacesAmountOn3Floor - 1) {
+        return {
+          displayedNo: 14,
+          floor: 3,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
+      if (number === PantryPlacesAmountOn3Floor - 2) {
+        return {
+          displayedNo: 39,
+          floor: 3,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
+      if (number === PantryPlacesAmountOn3Floor - 3) {
+        return {
+          displayedNo: 40,
+          floor: 3,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
       return {
-        displayedNo: number + 12,
+        displayedNo: number + 53,
         floor: 3,
         area: 1,
         currentPrice: 1,
@@ -47,8 +77,38 @@ export const pantryPlacesSeedData: PantryPlaceDto[] = [
   ),
   ...Array.from(Array(PantryPlacesAmountOn4Floor).keys()).map(
     (number): PantryPlaceDto => {
+      if (number === PantryPlacesAmountOn4Floor - 1) {
+        return {
+          displayedNo: 41,
+          floor: 4,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
+      if (number === PantryPlacesAmountOn4Floor - 2) {
+        return {
+          displayedNo: 42,
+          floor: 4,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
+      if (number === PantryPlacesAmountOn4Floor - 3) {
+        return {
+          displayedNo: 43,
+          floor: 4,
+          area: 1,
+          currentPrice: 1,
+          previousPrice: 1,
+          status: PlaceStatusesEnum.Free,
+        }
+      }
       return {
-        displayedNo: number + 15,
+        displayedNo: number + 274,
         floor: 4,
         area: 1,
         currentPrice: 1,
