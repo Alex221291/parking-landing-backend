@@ -11,7 +11,7 @@ export class ParkingPlacesController {
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)
   @Post()
-  create(@Body() parkingPlaceDto: ParkingPlaceDto) {
+  create(@Body() parkingPlaceDto: { parkingPlaces: ParkingPlaceDto[] }) {
     return this.parkingPlacesService.create(parkingPlaceDto)
   }
 
@@ -32,8 +32,8 @@ export class ParkingPlacesController {
   }
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.parkingPlacesService.remove(+id)
+  @Delete()
+  remove(@Body() deletePantryPlaceDto: { ids: number[] }) {
+    return this.parkingPlacesService.remove(deletePantryPlaceDto.ids)
   }
 }

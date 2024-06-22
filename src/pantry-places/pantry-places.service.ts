@@ -11,9 +11,14 @@ export class PantryPlacesService {
     private pantryPlaceRepository: Repository<PantryPlace>,
   ) {}
 
-  create(pantryPlaceDto: PantryPlaceDto): Promise<PantryPlace> {
-    const pantryPlace = this.pantryPlaceRepository.create(pantryPlaceDto)
-    return this.pantryPlaceRepository.save(pantryPlace)
+  create(pantryPlaceDto: { pantryPlaces: PantryPlaceDto[] }): Promise<PantryPlace[]> {
+    const createPantryPlacePromises = pantryPlaceDto.pantryPlaces.map(
+      (pantryPlaceSeedData) => {
+        const pantryPlace = this.pantryPlaceRepository.create(pantryPlaceSeedData)
+        return this.pantryPlaceRepository.save(pantryPlace)
+      },
+    )
+    return Promise.all(createPantryPlacePromises)
   }
 
   findAll(): Promise<PantryPlace[]> {
@@ -37,13 +42,22 @@ export class PantryPlacesService {
     return this.pantryPlaceRepository.save(updatedPantryPlace)
   }
 
-  async remove(id: number): Promise<void> {
-    const isPantryPlaceExisting = await this.pantryPlaceRepository.exist({
-      where: { id },
+  async remove(ids: number[]): Promise<void> {
+    const isPantryPlacesExistingPromises = ids.map((id) => {
+      return this.pantryPlaceRepository.exist({ where: { id } })
     })
-    if (!isPantryPlaceExisting) {
-      throw new NotFoundException(`Pantry place with id ${id} not found`)
+    const isPantryPlacesExisting = await Promise.all(isPantryPlacesExistingPromises)
+    const notExistingPlaceIndex = isPantryPlacesExisting.findIndex(
+      (isExisting) => isExisting === false,
+    )
+    if (notExistingPlaceIndex >= 0) {
+      throw new NotFoundException(
+        `Pantry place with id ${ids[notExistingPlaceIndex]} not found`,
+      )
     }
-    await this.pantryPlaceRepository.delete(id)
+    const deletePantryPlacesPromises = ids.map((id) => {
+      return this.pantryPlaceRepository.delete(id)
+    })
+    await Promise.all(deletePantryPlacesPromises)
   }
 }

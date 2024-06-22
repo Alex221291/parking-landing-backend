@@ -11,9 +11,14 @@ export class ParkingPlacesService {
     private parkingPlaceRepository: Repository<ParkingPlace>,
   ) {}
 
-  create(parkingPlaceDto: ParkingPlaceDto): Promise<ParkingPlace> {
-    const parkingPlace = this.parkingPlaceRepository.create(parkingPlaceDto)
-    return this.parkingPlaceRepository.save(parkingPlace)
+  create(parkingPlaceDto: { parkingPlaces: ParkingPlaceDto[] }): Promise<ParkingPlace[]> {
+    const createParkingPlacePromises = parkingPlaceDto.parkingPlaces.map(
+      (parkingPlaceSeedData) => {
+        const parkingPlace = this.parkingPlaceRepository.create(parkingPlaceSeedData)
+        return this.parkingPlaceRepository.save(parkingPlace)
+      },
+    )
+    return Promise.all(createParkingPlacePromises)
   }
 
   findAll(): Promise<ParkingPlace[]> {
@@ -37,13 +42,22 @@ export class ParkingPlacesService {
     return this.parkingPlaceRepository.save(updatedParkingPlace)
   }
 
-  async remove(id: number): Promise<void> {
-    const isParkingPlaceExisting = await this.parkingPlaceRepository.exist({
-      where: { id },
+  async remove(ids: number[]): Promise<void> {
+    const isParkingPlacesExistingPromises = ids.map((id) => {
+      return this.parkingPlaceRepository.exist({ where: { id } })
     })
-    if (!isParkingPlaceExisting) {
-      throw new NotFoundException(`Parking place with id ${id} not found`)
+    const isParkingPlacesExisting = await Promise.all(isParkingPlacesExistingPromises)
+    const notExistingPlaceIndex = isParkingPlacesExisting.findIndex(
+      (isExisting) => isExisting === false,
+    )
+    if (notExistingPlaceIndex >= 0) {
+      throw new NotFoundException(
+        `Pantry place with id ${ids[notExistingPlaceIndex]} not found`,
+      )
     }
-    await this.parkingPlaceRepository.delete(id)
+    const deleteParkingPlacesPromises = ids.map((id) => {
+      return this.parkingPlaceRepository.delete(id)
+    })
+    await Promise.all(deleteParkingPlacesPromises)
   }
 }

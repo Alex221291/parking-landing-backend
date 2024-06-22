@@ -11,7 +11,7 @@ export class PantryPlacesController {
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)
   @Post()
-  create(@Body() pantryPlaceDto: PantryPlaceDto) {
+  create(@Body() pantryPlaceDto: { pantryPlaces: PantryPlaceDto[] }) {
     return this.pantryPlacesService.create(pantryPlaceDto)
   }
 
@@ -32,8 +32,8 @@ export class PantryPlacesController {
   }
 
   @RequiredRoles(UserRolesEnum.SuperAdmin)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pantryPlacesService.remove(+id)
+  @Delete()
+  remove(@Body() deletePantryPlaceDto: { ids: number[] }) {
+    return this.pantryPlacesService.remove(deletePantryPlaceDto.ids)
   }
 }
