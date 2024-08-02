@@ -12,6 +12,7 @@ import { PantryPlacesModule } from './pantry-places/pantry-places.module'
 import { PantryPurchaseRequestsModule } from './pantry-purchase-requests/pantry-purchase-requests.module'
 import { BlogsModule } from './blogs/blogs.module'
 import { ImageModule } from './images/image.module'
+import { TelegramModule } from './telegram/telegram.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ImageModule } from './images/image.module'
     PantryPurchaseRequestsModule,
     BlogsModule,
     ImageModule,
+    TelegramModule,
   ],
 })
 export class AppModule {}
