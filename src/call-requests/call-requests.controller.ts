@@ -12,15 +12,24 @@ import { CallRequestsService } from './call-requests.service'
 import { CallRequestDto } from './dto/call-request.dto'
 import { CallRequestStatusesEnum } from './enums/call-requests-statuses.enum'
 import { PublicRoute } from 'src/infrastructure/decorators/public-route.decorator'
+import { TelegramChatService } from 'src/telegram/telegram-chat.service'
 
 @Controller('call-requests')
 export class CallRequestsController {
-  constructor(private readonly callRequestsService: CallRequestsService) {}
+  constructor(private readonly callRequestsService: CallRequestsService,
+    private readonly telegramChatService: TelegramChatService
+  ) {}
 
   @PublicRoute()
   @Post()
-  create(@Body() callRequestDto: CallRequestDto) {
-    return this.callRequestsService.create(callRequestDto)
+  async create(@Body() callRequestDto: CallRequestDto) {
+    const result = await this.callRequestsService.create(callRequestDto);
+    const text = `Заявка на звонок (В ожидании)
+Дата: ${result.createdAt.toLocaleDateString('ru-RU')}
+Имя: ${result.customerName}
+Телефон: ${result.customerPhoneNumber}`;
+        await this.telegramChatService.sendMessage(text);
+    return result;
   }
 
   @Get()

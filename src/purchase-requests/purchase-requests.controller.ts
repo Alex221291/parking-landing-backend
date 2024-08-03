@@ -27,14 +27,14 @@ export class PurchaseRequestsController {
   async create(@Body() purchaseRequestDto: PurchaseRequestDto) {
     const result = await this.purchaseRequestsService.create(purchaseRequestDto);
     const text = `Запрос на покупку места ${result.parkingPlace.displayedNo} (${statusLabelsPurchaseRequest[result.status]})
-Дата - ${result.createdAt.toLocaleDateString('ru-RU')}
-Имя покупателя - ${result.customerName}
-Телефон покупателя - ${result.customerPhoneNumber}
-Почта покупателя - ${result.customerEmail}
-Площадь места - ${result.parkingPlace.area}
-Старая цена места - ${result.parkingPlace.previousPrice || 'Не указана'}
-Текущая цена места - ${result.parkingPlace.currentPrice}
-Тип места - ${statusLabelsParkingPlaceTypes[result.parkingPlace.type]}`;
+Дата: ${result.createdAt.toLocaleDateString('ru-RU')}
+Имя покупателя: ${result.customerName}
+Телефон покупателя: ${result.customerPhoneNumber}
+Почта покупателя: ${result.customerEmail}
+Площадь места: ${result.parkingPlace.area}
+Старая цена места: ${result.parkingPlace.previousPrice || 'Не указана'}
+Текущая цена места: ${result.parkingPlace.currentPrice}
+Тип места: ${statusLabelsParkingPlaceTypes[result.parkingPlace.type]}`;
     await this.telegramChatService.sendMessage(text);
     return result;
   }

@@ -45,10 +45,10 @@ export class TelegramChatService {
         const result = await this.findAll();
         for(const chat of result){
             try{
-                app.telegram.sendMessage(chat.chatId, text);
+                await app.telegram.sendMessage(chat.chatId, text);          
             }
             catch(e){
-                continue;
+                await this.remove(chat.chatId);
             }
         }
     }

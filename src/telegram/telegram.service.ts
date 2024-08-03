@@ -40,4 +40,19 @@ export class TelegramService extends Telegraf {
         await ctx.reply('Вы уже отписались от рассылки заявок - ' + chatId);
       }
     }
+
+        // Добавляем обработчик события left_chat_member
+    @PublicRoute()
+    async onLeftChatMember(@Ctx() ctx: Context) {
+      const chatId = ctx.message.chat.id;
+      const result = await this.telegramChatService.remove(chatId);
+      if(result?.affected){
+        await ctx.reply('Бот удалён. Рассылка заявок отключена - ' + chatId);
+      } else{
+        await ctx.reply('Вы уже отписались от рассылки заявок - ' + chatId);
+      }
+
+      // Обработка события, когда бота удалили из группы
+      console.log(`Бот был удален из чата ${chatId} пользователем`);
+    }
 }
