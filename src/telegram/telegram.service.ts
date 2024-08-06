@@ -23,9 +23,9 @@ export class TelegramService extends Telegraf {
       const chatId = ctx.message.chat.id;
       const result = await this.telegramChatService.create(chatId);
       if(result){
-        await ctx.reply('Рассылка заявок подключена - ' + chatId);
+        await ctx.reply('Рассылка заявок подключена');
       } else{
-        await ctx.reply('Вы уже подписаны на рассылку заявок - ' + chatId);
+        await ctx.reply('Вы уже подписаны на рассылку заявок');
       }
     }
 
@@ -35,24 +35,9 @@ export class TelegramService extends Telegraf {
       const chatId = ctx.message.chat.id;
       const result = await this.telegramChatService.remove(chatId);
       if(result?.affected){
-        await ctx.reply('Рассылка заявок отключена - ' + chatId);
+        await ctx.reply('Рассылка заявок отключена');
       } else{
-        await ctx.reply('Вы уже отписались от рассылки заявок - ' + chatId);
+        await ctx.reply('Вы уже отписались от рассылки заявок');
       }
-    }
-
-        // Добавляем обработчик события left_chat_member
-    @PublicRoute()
-    async onLeftChatMember(@Ctx() ctx: Context) {
-      const chatId = ctx.message.chat.id;
-      const result = await this.telegramChatService.remove(chatId);
-      if(result?.affected){
-        await ctx.reply('Бот удалён. Рассылка заявок отключена - ' + chatId);
-      } else{
-        await ctx.reply('Вы уже отписались от рассылки заявок - ' + chatId);
-      }
-
-      // Обработка события, когда бота удалили из группы
-      console.log(`Бот был удален из чата ${chatId} пользователем`);
     }
 }
